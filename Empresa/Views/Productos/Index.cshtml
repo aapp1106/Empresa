@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Empresa.Models.Productos>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre_Producto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Valor_Producto)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre_Producto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Valor_Producto)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id_Producto }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id_Producto }, new { @class = "PEliminar" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts{
+    <script>
+        $(".PEliminar").click(function (event) {
+            if (!confirm('Esta seguro que desea eliminar el producto?')) {
+                event.preventDefault();
+            }
+        });
+    </script>
+
+}

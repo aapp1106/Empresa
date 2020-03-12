@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EmpresaDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Nomina">
+    <Key>
+      <PropertyRef Name="Id_Nomina" />
+    </Key>
+    <Property Name="Id_Nomina" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_Vendedor" Type="int" Nullable="false" />
+    <Property Name="Salario_Basico" Type="money" Nullable="false" />
+    <Property Name="Auxilio_Transporte" Type="money" />
+    <Property Name="Auxilio_Alimentacion" Type="money" />
+    <Property Name="Id_Rango" Type="int" Nullable="false" />
+    <Property Name="Fecha_Nomina" Type="datetime" Nullable="false" />
+    <Property Name="Valor_Sueldo" Type="money" />
+    <Property Name="SumaVentas" Type="money" />
+  </EntityType>
+  <EntityType Name="Productos">
+    <Key>
+      <PropertyRef Name="Id_Producto" />
+    </Key>
+    <Property Name="Id_Producto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre_Producto" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="Valor_Producto" Type="money" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rango_venta">
+    <Key>
+      <PropertyRef Name="Id_Rango" />
+    </Key>
+    <Property Name="Id_Rango" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DE" Type="money" Nullable="false" />
+    <Property Name="A" Type="money" Nullable="false" />
+    <Property Name="Porcentaje" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="Vendedor">
+    <Key>
+      <PropertyRef Name="Id_Vendedor" />
+    </Key>
+    <Property Name="Id_Vendedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombres_V" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="Apellidos_V" Type="varchar" MaxLength="150" />
+    <Property Name="Cedula_V" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Direccion" Type="varchar" MaxLength="250" />
+    <Property Name="Fecha_Registro" Type="datetime" Nullable="false" />
+    <Property Name="fecha_modificacion" Type="datetime" />
+    <Property Name="Genero" Type="char" MaxLength="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ventas">
+    <Key>
+      <PropertyRef Name="Id_Ventas" />
+    </Key>
+    <Property Name="Id_Ventas" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_Vendedor" Type="int" Nullable="false" />
+    <Property Name="Valor_Total_Ventas" Type="money" Nullable="false" />
+    <Property Name="Cantidad_Vendida" Type="int" Nullable="false" />
+    <Property Name="Valor_Producto" Type="money" Nullable="false" />
+    <Property Name="Fecha_venta" Type="datetime" Nullable="false" />
+    <Property Name="Id_Producto" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Nomina_Rango_venta">
+    <End Role="Rango_venta" Type="Self.Rango_venta" Multiplicity="1" />
+    <End Role="Nomina" Type="Self.Nomina" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rango_venta">
+        <PropertyRef Name="Id_Rango" />
+      </Principal>
+      <Dependent Role="Nomina">
+        <PropertyRef Name="Id_Rango" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Nomina_Vendedor">
+    <End Role="Vendedor" Type="Self.Vendedor" Multiplicity="1" />
+    <End Role="Nomina" Type="Self.Nomina" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Vendedor">
+        <PropertyRef Name="Id_Vendedor" />
+      </Principal>
+      <Dependent Role="Nomina">
+        <PropertyRef Name="Id_Vendedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ventas_Productos">
+    <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+    <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Productos">
+        <PropertyRef Name="Id_Producto" />
+      </Principal>
+      <Dependent Role="Ventas">
+        <PropertyRef Name="Id_Producto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ventas_Vendedor">
+    <End Role="Vendedor" Type="Self.Vendedor" Multiplicity="1" />
+    <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Vendedor">
+        <PropertyRef Name="Id_Vendedor" />
+      </Principal>
+      <Dependent Role="Ventas">
+        <PropertyRef Name="Id_Vendedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="VentasDeVendedoresPorMes2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="EmpresaDBModelStoreContainer">
+    <EntitySet Name="Nomina" EntityType="Self.Nomina" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rango_venta" EntityType="Self.Rango_venta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Vendedor" EntityType="Self.Vendedor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Nomina_Rango_venta" Association="Self.FK_Nomina_Rango_venta">
+      <End Role="Rango_venta" EntitySet="Rango_venta" />
+      <End Role="Nomina" EntitySet="Nomina" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Nomina_Vendedor" Association="Self.FK_Nomina_Vendedor">
+      <End Role="Vendedor" EntitySet="Vendedor" />
+      <End Role="Nomina" EntitySet="Nomina" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ventas_Productos" Association="Self.FK_Ventas_Productos">
+      <End Role="Productos" EntitySet="Productos" />
+      <End Role="Ventas" EntitySet="Ventas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ventas_Vendedor" Association="Self.FK_Ventas_Vendedor">
+      <End Role="Vendedor" EntitySet="Vendedor" />
+      <End Role="Ventas" EntitySet="Ventas" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,394 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EmpresaDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Nomina">
+          <Key>
+            <PropertyRef Name="Id_Nomina" />
+          </Key>
+          <Property Name="Id_Nomina" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Vendedor" Type="int" Nullable="false" />
+          <Property Name="Salario_Basico" Type="money" Nullable="false" />
+          <Property Name="Auxilio_Transporte" Type="money" />
+          <Property Name="Auxilio_Alimentacion" Type="money" />
+          <Property Name="Id_Rango" Type="int" Nullable="false" />
+          <Property Name="Fecha_Nomina" Type="datetime" Nullable="false" />
+          <Property Name="Valor_Sueldo" Type="money" />
+          <Property Name="SumaVentas" Type="money" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="Id_Producto" />
+          </Key>
+          <Property Name="Id_Producto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre_Producto" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Valor_Producto" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rango_venta">
+          <Key>
+            <PropertyRef Name="Id_Rango" />
+          </Key>
+          <Property Name="Id_Rango" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DE" Type="money" Nullable="false" />
+          <Property Name="A" Type="money" Nullable="false" />
+          <Property Name="Porcentaje" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Vendedor">
+          <Key>
+            <PropertyRef Name="Id_Vendedor" />
+          </Key>
+          <Property Name="Id_Vendedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombres_V" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Apellidos_V" Type="varchar" MaxLength="150" />
+          <Property Name="Cedula_V" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="250" />
+          <Property Name="Fecha_Registro" Type="datetime" Nullable="false" />
+          <Property Name="fecha_modificacion" Type="datetime" />
+          <Property Name="Genero" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="Id_Ventas" />
+          </Key>
+          <Property Name="Id_Ventas" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Vendedor" Type="int" Nullable="false" />
+          <Property Name="Valor_Total_Ventas" Type="money" Nullable="false" />
+          <Property Name="Cantidad_Vendida" Type="int" Nullable="false" />
+          <Property Name="Valor_Producto" Type="money" Nullable="false" />
+          <Property Name="Fecha_venta" Type="datetime" Nullable="false" />
+          <Property Name="Id_Producto" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Nomina_Rango_venta">
+          <End Role="Rango_venta" Type="Self.Rango_venta" Multiplicity="1" />
+          <End Role="Nomina" Type="Self.Nomina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rango_venta">
+              <PropertyRef Name="Id_Rango" />
+            </Principal>
+            <Dependent Role="Nomina">
+              <PropertyRef Name="Id_Rango" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Nomina_Vendedor">
+          <End Role="Vendedor" Type="Self.Vendedor" Multiplicity="1" />
+          <End Role="Nomina" Type="Self.Nomina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendedor">
+              <PropertyRef Name="Id_Vendedor" />
+            </Principal>
+            <Dependent Role="Nomina">
+              <PropertyRef Name="Id_Vendedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ventas_Productos">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id_Producto" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="Id_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ventas_Vendedor">
+          <End Role="Vendedor" Type="Self.Vendedor" Multiplicity="1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendedor">
+              <PropertyRef Name="Id_Vendedor" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="Id_Vendedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="VentasDeVendedoresPorMes2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="EmpresaDBModelStoreContainer">
+          <EntitySet Name="Nomina" EntityType="Self.Nomina" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rango_venta" EntityType="Self.Rango_venta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vendedor" EntityType="Self.Vendedor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Nomina_Rango_venta" Association="Self.FK_Nomina_Rango_venta">
+            <End Role="Rango_venta" EntitySet="Rango_venta" />
+            <End Role="Nomina" EntitySet="Nomina" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Nomina_Vendedor" Association="Self.FK_Nomina_Vendedor">
+            <End Role="Vendedor" EntitySet="Vendedor" />
+            <End Role="Nomina" EntitySet="Nomina" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ventas_Productos" Association="Self.FK_Ventas_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ventas_Vendedor" Association="Self.FK_Ventas_Vendedor">
+            <End Role="Vendedor" EntitySet="Vendedor" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EmpresaDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EmpresaConexionString" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="VentasDeVendedoresPorMes2" ReturnType="Collection(EmpresaDBModel.VentasDeVendedoresPorMes2_Result)" />
+          <EntitySet Name="Nomina" EntityType="EmpresaDBModel.Nomina" />
+          <EntitySet Name="Productos" EntityType="EmpresaDBModel.Productos" />
+          <EntitySet Name="Rango_venta" EntityType="EmpresaDBModel.Rango_venta" />
+          <EntitySet Name="Vendedor" EntityType="EmpresaDBModel.Vendedor" />
+          <EntitySet Name="Ventas" EntityType="EmpresaDBModel.Ventas" />
+          <AssociationSet Name="FK_Nomina_Rango_venta" Association="EmpresaDBModel.FK_Nomina_Rango_venta">
+            <End Role="Rango_venta" EntitySet="Rango_venta" />
+            <End Role="Nomina" EntitySet="Nomina" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Nomina_Vendedor" Association="EmpresaDBModel.FK_Nomina_Vendedor">
+            <End Role="Vendedor" EntitySet="Vendedor" />
+            <End Role="Nomina" EntitySet="Nomina" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ventas_Productos" Association="EmpresaDBModel.FK_Ventas_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ventas_Vendedor" Association="EmpresaDBModel.FK_Ventas_Vendedor">
+            <End Role="Vendedor" EntitySet="Vendedor" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="VentasDeVendedoresPorMes2_Result">
+          <Property Type="Int32" Name="Id_Vendedor" Nullable="false" />
+          <Property Type="Decimal" Name="Valor_Total" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="Mes" Nullable="true" />
+          <Property Type="Decimal" Name="SB" Nullable="true" Precision="22" Scale="6" />
+          <Property Type="Decimal" Name="AT" Nullable="true" Precision="22" Scale="6" />
+          <Property Type="Decimal" Name="AA" Nullable="true" Precision="22" Scale="6" />
+          <Property Type="Decimal" Name="Valor_Sueldo" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="SumaVentas" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="Id_Rango" Nullable="true" />
+          <Property Type="Int32" Name="Anho" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="Nomina">
+          <Key>
+            <PropertyRef Name="Id_Nomina" />
+          </Key>
+          <Property Name="Id_Nomina" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Vendedor" Type="Int32" Nullable="false" />
+          <Property Name="Salario_Basico" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Auxilio_Transporte" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Auxilio_Alimentacion" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Id_Rango" Type="Int32" Nullable="false" />
+          <Property Name="Fecha_Nomina" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Valor_Sueldo" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="SumaVentas" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Rango_venta" Relationship="EmpresaDBModel.FK_Nomina_Rango_venta" FromRole="Nomina" ToRole="Rango_venta" />
+          <NavigationProperty Name="Vendedor" Relationship="EmpresaDBModel.FK_Nomina_Vendedor" FromRole="Nomina" ToRole="Vendedor" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="Id_Producto" />
+          </Key>
+          <Property Name="Id_Producto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre_Producto" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Valor_Producto" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="Ventas" Relationship="EmpresaDBModel.FK_Ventas_Productos" FromRole="Productos" ToRole="Ventas" />
+        </EntityType>
+        <EntityType Name="Rango_venta">
+          <Key>
+            <PropertyRef Name="Id_Rango" />
+          </Key>
+          <Property Name="Id_Rango" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DE" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="A" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Porcentaje" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Nomina" Relationship="EmpresaDBModel.FK_Nomina_Rango_venta" FromRole="Rango_venta" ToRole="Nomina" />
+        </EntityType>
+        <EntityType Name="Vendedor">
+          <Key>
+            <PropertyRef Name="Id_Vendedor" />
+          </Key>
+          <Property Name="Id_Vendedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombres_V" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Apellidos_V" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Cedula_V" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_Registro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fecha_modificacion" Type="DateTime" Precision="3" />
+          <Property Name="Genero" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Nomina" Relationship="EmpresaDBModel.FK_Nomina_Vendedor" FromRole="Vendedor" ToRole="Nomina" />
+          <NavigationProperty Name="Ventas" Relationship="EmpresaDBModel.FK_Ventas_Vendedor" FromRole="Vendedor" ToRole="Ventas" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="Id_Ventas" />
+          </Key>
+          <Property Name="Id_Ventas" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Vendedor" Type="Int32" Nullable="false" />
+          <Property Name="Valor_Total_Ventas" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Cantidad_Vendida" Type="Int32" Nullable="false" />
+          <Property Name="Valor_Producto" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Fecha_venta" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Id_Producto" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Productos" Relationship="EmpresaDBModel.FK_Ventas_Productos" FromRole="Ventas" ToRole="Productos" />
+          <NavigationProperty Name="Vendedor" Relationship="EmpresaDBModel.FK_Ventas_Vendedor" FromRole="Ventas" ToRole="Vendedor" />
+        </EntityType>
+        <Association Name="FK_Nomina_Rango_venta">
+          <End Type="EmpresaDBModel.Rango_venta" Role="Rango_venta" Multiplicity="1" />
+          <End Type="EmpresaDBModel.Nomina" Role="Nomina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rango_venta">
+              <PropertyRef Name="Id_Rango" />
+            </Principal>
+            <Dependent Role="Nomina">
+              <PropertyRef Name="Id_Rango" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Nomina_Vendedor">
+          <End Type="EmpresaDBModel.Vendedor" Role="Vendedor" Multiplicity="1" />
+          <End Type="EmpresaDBModel.Nomina" Role="Nomina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendedor">
+              <PropertyRef Name="Id_Vendedor" />
+            </Principal>
+            <Dependent Role="Nomina">
+              <PropertyRef Name="Id_Vendedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ventas_Productos">
+          <End Type="EmpresaDBModel.Productos" Role="Productos" Multiplicity="1" />
+          <End Type="EmpresaDBModel.Ventas" Role="Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id_Producto" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="Id_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ventas_Vendedor">
+          <End Type="EmpresaDBModel.Vendedor" Role="Vendedor" Multiplicity="1" />
+          <End Type="EmpresaDBModel.Ventas" Role="Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendedor">
+              <PropertyRef Name="Id_Vendedor" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="Id_Vendedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EmpresaDBModelStoreContainer" CdmEntityContainer="EmpresaConexionString">
+          <FunctionImportMapping FunctionImportName="VentasDeVendedoresPorMes2" FunctionName="EmpresaDBModel.Store.VentasDeVendedoresPorMes2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EmpresaDBModel.VentasDeVendedoresPorMes2_Result">
+                <ScalarProperty Name="Id_Vendedor" ColumnName="Id_Vendedor" />
+                <ScalarProperty Name="Valor_Total" ColumnName="Valor_Total" />
+                <ScalarProperty Name="Mes" ColumnName="Mes" />
+                <ScalarProperty Name="SB" ColumnName="SB" />
+                <ScalarProperty Name="AT" ColumnName="AT" />
+                <ScalarProperty Name="AA" ColumnName="AA" />
+                <ScalarProperty Name="Valor_Sueldo" ColumnName="Valor_Sueldo" />
+                <ScalarProperty Name="SumaVentas" ColumnName="SumaVentas" />
+                <ScalarProperty Name="Id_Rango" ColumnName="Id_Rango" />
+                <ScalarProperty Name="Anho" ColumnName="Anho" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Nomina">
+            <EntityTypeMapping TypeName="EmpresaDBModel.Nomina">
+              <MappingFragment StoreEntitySet="Nomina">
+                <ScalarProperty Name="SumaVentas" ColumnName="SumaVentas" />
+                <ScalarProperty Name="Valor_Sueldo" ColumnName="Valor_Sueldo" />
+                <ScalarProperty Name="Fecha_Nomina" ColumnName="Fecha_Nomina" />
+                <ScalarProperty Name="Id_Rango" ColumnName="Id_Rango" />
+                <ScalarProperty Name="Auxilio_Alimentacion" ColumnName="Auxilio_Alimentacion" />
+                <ScalarProperty Name="Auxilio_Transporte" ColumnName="Auxilio_Transporte" />
+                <ScalarProperty Name="Salario_Basico" ColumnName="Salario_Basico" />
+                <ScalarProperty Name="Id_Vendedor" ColumnName="Id_Vendedor" />
+                <ScalarProperty Name="Id_Nomina" ColumnName="Id_Nomina" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productos">
+            <EntityTypeMapping TypeName="EmpresaDBModel.Productos">
+              <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="Valor_Producto" ColumnName="Valor_Producto" />
+                <ScalarProperty Name="Nombre_Producto" ColumnName="Nombre_Producto" />
+                <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rango_venta">
+            <EntityTypeMapping TypeName="EmpresaDBModel.Rango_venta">
+              <MappingFragment StoreEntitySet="Rango_venta">
+                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
+                <ScalarProperty Name="A" ColumnName="A" />
+                <ScalarProperty Name="DE" ColumnName="DE" />
+                <ScalarProperty Name="Id_Rango" ColumnName="Id_Rango" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendedor">
+            <EntityTypeMapping TypeName="EmpresaDBModel.Vendedor">
+              <MappingFragment StoreEntitySet="Vendedor">
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="fecha_modificacion" ColumnName="fecha_modificacion" />
+                <ScalarProperty Name="Fecha_Registro" ColumnName="Fecha_Registro" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Cedula_V" ColumnName="Cedula_V" />
+                <ScalarProperty Name="Apellidos_V" ColumnName="Apellidos_V" />
+                <ScalarProperty Name="Nombres_V" ColumnName="Nombres_V" />
+                <ScalarProperty Name="Id_Vendedor" ColumnName="Id_Vendedor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ventas">
+            <EntityTypeMapping TypeName="EmpresaDBModel.Ventas">
+              <MappingFragment StoreEntitySet="Ventas">
+                <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
+                <ScalarProperty Name="Fecha_venta" ColumnName="Fecha_venta" />
+                <ScalarProperty Name="Valor_Producto" ColumnName="Valor_Producto" />
+                <ScalarProperty Name="Cantidad_Vendida" ColumnName="Cantidad_Vendida" />
+                <ScalarProperty Name="Valor_Total_Ventas" ColumnName="Valor_Total_Ventas" />
+                <ScalarProperty Name="Id_Vendedor" ColumnName="Id_Vendedor" />
+                <ScalarProperty Name="Id_Ventas" ColumnName="Id_Ventas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

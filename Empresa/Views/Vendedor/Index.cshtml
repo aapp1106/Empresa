@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Empresa.Models.Vendedor>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombres_V)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellidos_V)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cedula_V)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha_Registro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fecha_modificacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genero)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombres_V)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellidos_V)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula_V)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha_Registro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fecha_modificacion)
+            </td>
+            <td>
+                @if (@item.Genero == "m")
+                {
+                    <span>Masculino</span>
+                }
+                else
+                {
+                    <span>Femenino</span>
+                }
+
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id_Vendedor }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id_Vendedor }, new { @class = "VEliminar" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section scripts{
+    <script>
+        $(".VEliminar").click(function (event) {
+            if (!confirm('Esta seguro que desea eliminar al vendedor puedes crear problemas con la base de datos...?')) {
+                event.preventDefault();
+            }
+        });
+    </script>
+
+}

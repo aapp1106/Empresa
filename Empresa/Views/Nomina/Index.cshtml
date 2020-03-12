@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Empresa.Models.Nomina>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Aplicar Nomina", "Realizar_Nomina")
+    <button type="button" role="button" onclick="GenerarExcel()"> Generar Excel </button>
+</p>
+<script>
+    function GenerarExcel() {
+
+        var formURL = '/Nomina/CrearExcel' ;
+        window.open(formURL, "_blank");
+        location.reload(true);
+
+    }
+</script>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Vendedor.Nombres_V)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Salario_Basico)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auxilio_Transporte)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auxilio_Alimentacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha_Nomina)
+        </th>
+        <th>
+            <span>Porcentaje comision</span>
+        </th>      
+        <th>
+            <span>Valor sueldo</span>
+        </th>
+        <th>
+            <span>Total ventas</span>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vendedor.Nombres_V)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Salario_Basico)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auxilio_Transporte)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auxilio_Alimentacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha_Nomina)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rango_venta.Porcentaje)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Valor_Sueldo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SumaVentas)
+        </td>
+    </tr>
+}
+
+</table>

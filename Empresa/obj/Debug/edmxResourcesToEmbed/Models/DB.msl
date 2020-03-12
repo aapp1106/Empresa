@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EmpresaDBModelStoreContainer" CdmEntityContainer="EmpresaConexionString">
+    <FunctionImportMapping FunctionImportName="VentasDeVendedoresPorMes2" FunctionName="EmpresaDBModel.Store.VentasDeVendedoresPorMes2">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="EmpresaDBModel.VentasDeVendedoresPorMes2_Result">
+          <ScalarProperty Name="Id_Vendedor" ColumnName="Id_Vendedor" />
+          <ScalarProperty Name="Valor_Total" ColumnName="Valor_Total" />
+          <ScalarProperty Name="Mes" ColumnName="Mes" />
+          <ScalarProperty Name="SB" ColumnName="SB" />
+          <ScalarProperty Name="AT" ColumnName="AT" />
+          <ScalarProperty Name="AA" ColumnName="AA" />
+          <ScalarProperty Name="Valor_Sueldo" ColumnName="Valor_Sueldo" />
+          <ScalarProperty Name="SumaVentas" ColumnName="SumaVentas" />
+          <ScalarProperty Name="Id_Rango" ColumnName="Id_Rango" />
+          <ScalarProperty Name="Anho" ColumnName="Anho" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Nomina">
+      <EntityTypeMapping TypeName="EmpresaDBModel.Nomina">
+        <MappingFragment StoreEntitySet="Nomina">
+          <ScalarProperty Name="SumaVentas" ColumnName="SumaVentas" />
+          <ScalarProperty Name="Valor_Sueldo" ColumnName="Valor_Sueldo" />
+          <ScalarProperty Name="Fecha_Nomina" ColumnName="Fecha_Nomina" />
+          <ScalarProperty Name="Id_Rango" ColumnName="Id_Rango" />
+          <ScalarProperty Name="Auxilio_Alimentacion" ColumnName="Auxilio_Alimentacion" />
+          <ScalarProperty Name="Auxilio_Transporte" ColumnName="Auxilio_Transporte" />
+          <ScalarProperty Name="Salario_Basico" ColumnName="Salario_Basico" />
+          <ScalarProperty Name="Id_Vendedor" ColumnName="Id_Vendedor" />
+          <ScalarProperty Name="Id_Nomina" ColumnName="Id_Nomina" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Productos">
+      <EntityTypeMapping TypeName="EmpresaDBModel.Productos">
+        <MappingFragment StoreEntitySet="Productos">
+          <ScalarProperty Name="Valor_Producto" ColumnName="Valor_Producto" />
+          <ScalarProperty Name="Nombre_Producto" ColumnName="Nombre_Producto" />
+          <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rango_venta">
+      <EntityTypeMapping TypeName="EmpresaDBModel.Rango_venta">
+        <MappingFragment StoreEntitySet="Rango_venta">
+          <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
+          <ScalarProperty Name="A" ColumnName="A" />
+          <ScalarProperty Name="DE" ColumnName="DE" />
+          <ScalarProperty Name="Id_Rango" ColumnName="Id_Rango" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vendedor">
+      <EntityTypeMapping TypeName="EmpresaDBModel.Vendedor">
+        <MappingFragment StoreEntitySet="Vendedor">
+          <ScalarProperty Name="Genero" ColumnName="Genero" />
+          <ScalarProperty Name="fecha_modificacion" ColumnName="fecha_modificacion" />
+          <ScalarProperty Name="Fecha_Registro" ColumnName="Fecha_Registro" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="Cedula_V" ColumnName="Cedula_V" />
+          <ScalarProperty Name="Apellidos_V" ColumnName="Apellidos_V" />
+          <ScalarProperty Name="Nombres_V" ColumnName="Nombres_V" />
+          <ScalarProperty Name="Id_Vendedor" ColumnName="Id_Vendedor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ventas">
+      <EntityTypeMapping TypeName="EmpresaDBModel.Ventas">
+        <MappingFragment StoreEntitySet="Ventas">
+          <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
+          <ScalarProperty Name="Fecha_venta" ColumnName="Fecha_venta" />
+          <ScalarProperty Name="Valor_Producto" ColumnName="Valor_Producto" />
+          <ScalarProperty Name="Cantidad_Vendida" ColumnName="Cantidad_Vendida" />
+          <ScalarProperty Name="Valor_Total_Ventas" ColumnName="Valor_Total_Ventas" />
+          <ScalarProperty Name="Id_Vendedor" ColumnName="Id_Vendedor" />
+          <ScalarProperty Name="Id_Ventas" ColumnName="Id_Ventas" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
