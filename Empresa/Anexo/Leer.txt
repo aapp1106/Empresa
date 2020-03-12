@@ -1,0 +1,1 @@
+Debe crear una nueva base de datos en el SQL Server con el nombre Empresa para realizar la restauracion de la base de datos la cual se encuentra comprimida con el formato .bak
